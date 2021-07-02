@@ -2,70 +2,144 @@
 #include <stdlib.h>
 #include <time.h>
 
-
-int main(){
-        
-    // imprime o cabeçalho do nosso jogo
-    printf("*******************************************\n");
-    printf("* Bem vindos ao nosso jogo de adivinhação *\n");
-    printf("*******************************************\n");
-
-    // GERANDO NÚMEROS RANDOMICOS
-    int segundos = time(0);
-    srand(segundos);
-    int numerogrande = rand();
-    int numerosecreto = numerogrande % 100;
-
+int main() {
+  
     
-    int chute;
-    int tentativas = 1;
-    double pontos = 1000;
+  int level;
+  int maxTries;
+  int tryNumber = 1;
+  int guess;
 
-    // loop condicional
-    while(1) {
+  //DEFININDO NÚMERO ALEATÓRIO
+  int seed = time(0);
+  srand(seed);
+  int secretNumber = rand() % 100;
 
-        printf("\n**Tentativa %d**\n", tentativas);
-        printf("Qual é o seu chute? :D \n\n");
-        scanf("\n%d", &chute);
-        printf("\nSeu chute foi %d!\n", chute);
-
-        if(chute < 0) {
-            printf("Você não pode chutar números negativos!\n");
-            // AVISA O "FOR" que deve ir para a próxima interação.
-            continue;
-        }
+  
 
 
-        
-        int acertou = (chute == numerosecreto);
-        int maior = (chute > numerosecreto);
+  //PIKACHU WELCOMES YOU AND WANTS TO PLAY A GAME
+  printf("\n\n░░░░░░░░▀████▀▄▄░░░░░░░░░░░░░░▄█");
+  printf("\n░░░░░░░░░░█▀░░░░▀▀▄▄▄▄▄░░░░▄▄▀▀█");
+  printf("\n░░▄░░░░░░░░█░░░░░░░░░░▀▀▀▀▄░░▄▀");
+  printf("\n░▄▀░▀▄░░░░░░▀▄░░░░░░░░░░░░░░▀▄▀");
+  printf("\n▄▀░░░░█░░░░░█▀░░░▄█▀▄░░░░░░▄█");
+  printf("\n▀▄░░░░░▀▄░░█░░░░░▀██▀░░░░░██▄█");
+  printf("\n░▀▄░░░░▄▀░█░░░▄██▄░░░▄░░▄░░▀▀░█");
+  printf("\n░░█░░▄▀░░█░░░░▀██▀░░░░▀▀░▀▀░░▄▀");
+  printf("\n░█░░░█░░█░░░░░░▄▄░░░░░░░░░░░▄▀");
+  printf("\n\nVamos brincar de adivinhações!\n");
+
+  //DIFICULDADE
+  printf("\nQual a dificuldade?");
+  printf("\n(1) Fácil");
+  printf("\n(2) Médio");
+  printf("\n(3) Difícil");
+  printf("\nEscolha um número e aperte ENTER.\n");
+  scanf("%d", &level);
+  
+  if(level == 1){
+    printf("Vamos jogar no Fácil, então!\n");
+  } else if(level == 2) {
+    printf("Vamos jogar no Médio, então!\n");
+  } else{
+    printf("Vamos jogar no Difícil, então!\n");
+  }
+  
+  switch(level) {
+    case 1:
+      maxTries = 20;
+      break;
+    case 2:
+      maxTries = 15;
+      break;
+    default:
+      maxTries = 6;
+      break;
+  }
+
+  printf("\n\nTente adivinhar o número secreto!");
+  printf("\n\nValendo os números de 1 a 99.\n\n");
+
+  int acertou;
+  double points = 1000;
+
+  for(int i = 1; i <= maxTries; i++) {
+
+    printf("\nTentativa %d de %d!", tryNumber, maxTries);
+    printf("\nDigite seu chute \n");
+    scanf("%d", &guess);
+    
 
 
-            // CONDICIONAL
-        if(acertou) {
-        printf("\nParabéns! Você acertou!\n");
-        printf("Jogue de novo, você é um bom jogador!\n");
-        
-            // ORDENAR O while a parar
-        break;
-        }
 
-        else if(maior) {
-                printf("Seu chute foi maior que o número secreto!\n");   
-            
-        } 
-
-        else {
-                printf("Seu chute foi menor que o número secreto!\n");
-                
-            }
-        
-        tentativas++;
-
-        double pontosperdidos = abs(chute - numerosecreto) / (double)2;
-        pontos = pontos - pontosperdidos;
+    if(guess < 0) {
+      printf("\nVocê só pode chutar números positivos!");
+      continue;
     }
-    printf("\n--Fim de jogo--\n");
-    printf("Você acertou em %d tentativas!\n", tentativas);
-    printf("Total de pontos: %.1f\n", pontos);
+
+    acertou = (guess == secretNumber);
+    int maior = (guess > secretNumber);
+
+
+    if(acertou) {
+      break;
+    } else if(maior) {
+      printf("\nSeu chute foi maior que o número secreto!");
+    } else {
+      printf("\nSeu chute foi menor que o número secreto!");
+    }
+    tryNumber++;
+    double lostPoints = abs(guess - secretNumber) / (double)2;
+    points = (points - lostPoints);
+  }
+
+
+  if(acertou) {
+    
+    printf("\n\n⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⣠⣤⣶⣶");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⢰⣿⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣀⣀⣾⣿⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⡏⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁⠀⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠙⠿⠿⠿⠻⠿⠿⠟⠿⠛⠉⠀⠀⠀⠀⠀⣸⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣴⣿⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⢰⣹⡆⠀⠀⠀⠀⠀⠀⣭⣷⠀⠀⠀⠸⣿⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠈⠉⠀⠀⠤⠄⠀⠀⠀⠉⠁⠀⠀⠀⠀⢿⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⢾⣿⣷⠀⠀⠀⠀⡠⠤⢄⠀⠀⠀⠠⣿⣿⣷⠀⢸⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿");
+    printf("\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿");
+    printf("\nUau! Você acertou em %d tentativas!", tryNumber);
+    printf("\nTotal de pontos: %.1f", points);
+    printf("\nSe quiser brincar novamente, é só chamar!");
+
+  } else {
+      
+      printf("\n\n────────▄███████████▄────────");
+      printf("\n─────▄███▓▓▓▓▓▓▓▓▓▓▓███▄─────");
+      printf("\n────███▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███────");
+      printf("\n───██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██───");
+      printf("\n──██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██──");
+      printf("\n─██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██─");
+      printf("\n██▓▓▓▓▓▓▓▓▓███████▓▓▓▓▓▓▓▓▓██");
+      printf("\n██▓▓▓▓▓▓▓▓██░░░░░██▓▓▓▓▓▓▓▓██");
+      printf("\n██▓▓▓▓▓▓▓██░░███░░██▓▓▓▓▓▓▓██");
+      printf("\n███████████░░███░░███████████");
+      printf("\n██░░░░░░░██░░███░░██░░░░░░░██");
+      printf("\n██░░░░░░░░██░░░░░██░░░░░░░░██");
+      printf("\n██░░░░░░░░░███████░░░░░░░░░██");
+      printf("\n─██░░░░░░░░░░░░░░░░░░░░░░░██─");
+      printf("\n──██░░░░░░░░░░░░░░░░░░░░░██──");
+      printf("\n───██░░░░░░░░░░░░░░░░░░░██───");
+      printf("\n────███░░░░░░░░░░░░░░░███────");
+      printf("\n─────▀███░░░░░░░░░░░███▀─────");
+      printf("\n────────▀███████████▀────────\n");
+      
+      printf("\nQue pena, acabaram as tentativas!");
+      printf("\nMas não desanime! Tente novamente!");
+
+  }
+  printf("\n\n-- Fim de jogo --\n\n");
 }
